@@ -21,8 +21,8 @@
   </header>
 </template>
 <script>
-import { mapStores } from 'pinia'
-import { modalStore } from '@/stores/counter.js'
+import { mapStores , mapState, mapWritableState } from 'pinia'
+import { modalStore } from '@/stores/modal'
 export default {
   name: 'AppHeader',
   computed: {
@@ -31,6 +31,7 @@ export default {
   methods: {
     toggleAuthModal() {
       this.modalStore.isOpen = !this.modalStore.isOpen
+      console.log("Modal isOpen:", this.modalStore.isOpen);
     }
   }
 }

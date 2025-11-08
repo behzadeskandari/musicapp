@@ -12,8 +12,3 @@ export const useCounterStore = defineStore('counter', () => {
 })
 
 
-export const modalStore =  defineStore("modal", {
-  state: () => ({
-    isOpen: false,
-  }),
-})

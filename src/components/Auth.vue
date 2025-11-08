@@ -1,6 +1,6 @@
 <template>
    <!-- Auth Modal -->
-  <div class="fixed z-10 inset-0 overflow-y-auto hidden" id="modal">
+  <div class="fixed z-1 inset-0 overflow-y-auto" :class="hiddenClass" id="modal">
     <div
       class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
     >
@@ -12,7 +12,7 @@
       <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
 
       <div
-        class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+        class="z-99 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
       >
         <!-- Add margin if you want to see some of the overlay behind the modal-->
         <div class="py-4 text-left px-6">
@@ -20,7 +20,7 @@
           <div class="flex justify-between items-center pb-4">
             <p class="text-2xl font-bold">Your Account</p>
             <!-- Modal Close Button -->
-            <div class="modal-close cursor-pointer z-50">
+            <div class="modal-close cursor-pointer z-50"  @click="modalVisibility = false">
               <i class="fas fa-times"></i>
             </div>
           </div>
@@ -141,9 +141,24 @@
   </div>
 </template>
 <script>
+import {mapState, mapWritableState} from 'pinia'
+import { modalStore } from '@/stores/modal';
+
 export default {
   name: 'Auth',
-
+  computed: {
+    ...mapState(modalStore, ['hiddenClass']),
+    ...mapWritableState(modalStore, {
+      modalVisibility : 'isOpen'
+    })
+    //['isOpen']
+  },
+  methods:{
+  //  toggleAuthModal(){
+  //    const modal = modalStore()
+  //     modal.toggleModal()
+  //  }
+ }
 }
 </script>
 <style>
