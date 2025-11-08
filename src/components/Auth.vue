@@ -29,18 +29,27 @@
           <ul class="flex flex-wrap mb-4">
             <li class="flex-auto text-center">
               <a
-                class="block rounded py-3 px-4 transition hover:text-white text-white bg-blue-600"
-                href="#"
+                class="block rounded py-3 px-4 transition "
+                :class="{
+                  'hover:text-white text-white bg-blue-600': tab == 'login',
+                  'hover:text-blue-600': tab === 'register'
+                }"
+                href="#" @click.prevent="tab = 'login'"
                 >Login</a
               >
             </li>
             <li class="flex-auto text-center">
-              <a class="block rounded py-3 px-4 transition" href="#">Register</a>
+              <a @click.prevent="tab = 'register'"
+                :class="{
+                  'hover:text-white text-white bg-blue-600': tab == 'register',
+                  'hover:text-blue-600': tab === 'login'
+                }"
+              class="block rounded py-3 px-4 transition" href="#">Register</a>
             </li>
           </ul>
 
           <!-- Login Form -->
-          <form>
+          <form v-show="tab === 'login'">
             <!-- Email -->
             <div class="mb-3">
               <label class="inline-block mb-2">Email</label>
@@ -67,7 +76,7 @@
             </button>
           </form>
           <!-- Registration Form -->
-          <form>
+          <form v-show="tab === 'register'">
             <!-- Name -->
             <div class="mb-3">
               <label class="inline-block mb-2">Name</label>
@@ -95,13 +104,18 @@
               />
             </div>
             <!-- Password -->
-            <div class="mb-3">
+           <div class="mb-3 relative">
               <label class="inline-block mb-2">Password</label>
               <input
-                type="password"
+                :type="showPassword ? 'text' : 'password'"
                 class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
                 placeholder="Password"
               />
+              <i
+                @click="toggleShow"
+                :class="['fas', showPassword ? 'fa-eye-slash' : 'fa-eye']"
+                class="absolute top-9 right-3 cursor-pointer text-gray-600"
+              ></i>
             </div>
             <!-- Confirm Password -->
             <div class="mb-3">
@@ -153,11 +167,20 @@ export default {
     })
     //['isOpen']
   },
+  data(){
+    return{
+      tab: "login",
+      showPassword: false
+    }
+  },
   methods:{
   //  toggleAuthModal(){
   //    const modal = modalStore()
   //     modal.toggleModal()
   //  }
+    toggleShow(){
+      this.showPassword = !this.showPassword
+    }
  }
 }
 </script>
