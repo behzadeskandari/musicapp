@@ -40,6 +40,13 @@ input[type='file'] {
   margin-top: 20px;
 }
 
+input {
+  display: block;
+  width: 100%;
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
 .progress-bar {
   background-size: 1rem 1rem;
   background-image: linear-gradient(
