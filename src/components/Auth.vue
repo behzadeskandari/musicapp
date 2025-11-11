@@ -52,7 +52,8 @@
             <div class="mb-3">
               <label class="inline-block mb-2">Password</label>
               <vee-field :type="showPassword ? 'text' : 'password'" name="password" rules="required|min:6" as="input"
-                class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
+                class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition
+                duration-500 focus:outline-none focus:border-black rounded"
                 placeholder="Enter Password" />
               <i @click="toggleShow" :class="['fas', showPassword ? 'fa-eye-slash' : 'fa-eye']"
                 class="absolute top-9 right-3 cursor-pointer text-gray-600"></i>
@@ -64,52 +65,64 @@
             </button>
           </vee-form>
           <!-- Registration Form -->
-          <form v-show="tab === 'register'">
+          <vee-form v-show="tab === 'register'" :validation-schema="registerSchema">
             <!-- Name -->
             <div class="mb-3">
               <label class="inline-block mb-2">Name</label>
-              <input type="text"
-                class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
+              <vee-field type="text" name="name" as="input"
+                class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition
+                duration-500 focus:outline-none focus:border-black rounded"
                 placeholder="Enter Name" />
+                 <ErrorMessage name="name" class="text-red-500 text-sm mt-1" />
             </div>
             <!-- Email -->
             <div class="mb-3">
               <label class="inline-block mb-2">Email</label>
-              <input type="email"
-                class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
+              <vee-field name="email" as="input" type="email"
+                class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition
+                duration-500 focus:outline-none focus:border-black rounded"
                 placeholder="Enter Email" />
+                <ErrorMessage name="email" class="text-red-500 text-sm mt-1" />
             </div>
             <!-- Age -->
             <div class="mb-3">
               <label class="inline-block mb-2">Age</label>
-              <input type="number"
-                class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded" />
+              <vee-field type="number" as="input" name="age"
+                class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300
+                transition duration-500 focus:outline-none focus:border-black rounded" />
+                     <ErrorMessage name="age" class="text-red-500 text-sm mt-1" />
             </div>
             <!-- Password -->
             <div class="mb-3 relative">
               <label class="inline-block mb-2">Password</label>
-              <input :type="showPassword ? 'text' : 'password'"
-                class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
+              <vee-field :type="showPassword ? 'text' : 'password'"  name="password" rules="required|min:6" as="input"
+                class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300
+                transition duration-500 focus:outline-none focus:border-black rounded"
                 placeholder="Password" />
               <i @click="toggleShow" :class="['fas', showPassword ? 'fa-eye-slash' : 'fa-eye']"
                 class="absolute top-9 right-3 cursor-pointer text-gray-600"></i>
+                      <ErrorMessage name="password" class="text-red-500 text-sm mt-1" />
             </div>
             <!-- Confirm Password -->
             <div class="mb-3">
               <label class="inline-block mb-2">Confirm Password</label>
-              <input type="password"
-                class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
+              <vee-field type="password"  name="confirm_password" rules="required|min:6" as="input"
+                class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition
+                duration-500 focus:outline-none focus:border-black rounded"
                 placeholder="Confirm Password" />
+                        <ErrorMessage name="confirm_password" class="text-red-500 text-sm mt-1" />
             </div>
             <!-- Country -->
             <div class="mb-3">
               <label class="inline-block mb-2">Country</label>
               <select
-                class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded">
+                class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition
+                duration-500 focus:outline-none focus:border-black rounded">
                 <option value="USA">USA</option>
                 <option value="Mexico">Mexico</option>
                 <option value="Germany">Germany</option>
               </select>
+
             </div>
             <!-- TOS -->
             <div class="mb-3 pl-6">
@@ -120,7 +133,7 @@
               class="block w-full bg-purple-600 text-white py-1.5 px-3 rounded transition hover:bg-purple-700">
               Submit
             </button>
-          </form>
+          </vee-form>
         </div>
       </div>
     </div>
@@ -149,13 +162,13 @@ export default {
     },
     registerSchema() {
       return {
-        name: 'required|min:2',
-        email: 'required|email',
-        age: 'required|min:1|max:120',
-        password: 'required|password|min:8',
-        confirm_password: 'required|confirmed:@password',
-        country: 'required',
-        tos: 'required',
+            name: 'required|min:2|alpha_spaces',
+            email: 'required|email',
+            age: 'required|min_value:18|max_value:120',
+            password: 'required|password|min:8',
+            confirm_password: 'required|confirmed:@password',
+            country: 'required',
+            tos: 'required',
       };
     },
   }
