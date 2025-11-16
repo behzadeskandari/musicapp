@@ -55,6 +55,7 @@
               <vee-field :type="showPassword ? 'text' : 'password'" v-model="loginForm.password" name="password" rules="required|min:6" as="input"
                 class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition
                 duration-500 focus:outline-none focus:border-black rounded" placeholder="Enter Password" />
+                duration-500 focus:outline-none focus:border-black rounded" placeholder="Enter Password" />
               <i @click="toggleShow" :class="['fas', showPassword ? 'fa-eye-slash' : 'fa-eye']"
                 class="absolute top-9 right-3 cursor-pointer text-gray-600"></i>
               <ErrorMessage name="password" class="text-red-500 text-sm mt-1" />
@@ -86,6 +87,7 @@
               <vee-field type="number" as="input" name="age" v-model="registerForm.age" class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300
                 transition duration-500 focus:outline-none focus:border-black rounded" />
               <ErrorMessage name="age" class="text-red-500 text-sm mt-1" />
+              <ErrorMessage name="age" class="text-red-500 text-sm mt-1" />
             </div>
             <!-- Password -->
             <div class="mb-3 relative">
@@ -93,8 +95,10 @@
               <vee-field :type="showPassword ? 'text' : 'password'" v-model="registerForm.password" name="password" rules="required|min:6" as="input"
                 class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300
                 transition duration-500 focus:outline-none focus:border-black rounded" placeholder="Password" />
+                transition duration-500 focus:outline-none focus:border-black rounded" placeholder="Password" />
               <i @click="toggleShow" :class="['fas', showPassword ? 'fa-eye-slash' : 'fa-eye']"
                 class="absolute top-9 right-3 cursor-pointer text-gray-600"></i>
+              <ErrorMessage name="password" class="text-red-500 text-sm mt-1" />
               <ErrorMessage name="password" class="text-red-500 text-sm mt-1" />
             </div>
             <!-- Confirm Password -->
@@ -123,6 +127,7 @@
               <label class="inline-block">Accept terms of service</label>
             </div>
             <ErrorMessage name="tos" class="text-red-500 text-sm mt-1" />
+            <ErrorMessage name="tos" class="text-red-500 text-sm mt-1" />
             <button type="submit"
               class="block w-full bg-purple-600 text-white py-1.5 px-3 rounded transition hover:bg-purple-700">
               Submit
@@ -143,6 +148,7 @@ export default {
   name: 'Auth',
   computed: {
     ...validation,
+    ...validation,
     ...mapState(modalStore, ['hiddenClass']),
     ...mapWritableState(modalStore, {
       modalVisibility: 'isOpen'
@@ -157,6 +163,13 @@ export default {
     },
     registerSchema() {
       return {
+        name: 'required|min:2|alpha_spaces',
+        email: 'required|email',
+        age: 'required|min_value:18|max_value:120',
+        password: 'required|password|min:8',
+        confirm_password: 'required|confirmed:@password',
+        country: 'required',
+        tos: 'tos_required',
         name: 'required|min:2|alpha_spaces',
         email: 'required|email',
         age: 'required|min_value:18|max_value:120',
