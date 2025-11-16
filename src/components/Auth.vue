@@ -148,7 +148,6 @@ export default {
   name: 'Auth',
   computed: {
     ...validation,
-    ...validation,
     ...mapState(modalStore, ['hiddenClass']),
     ...mapWritableState(modalStore, {
       modalVisibility: 'isOpen'
