@@ -39,11 +39,12 @@
           </ul>
 
           <!-- Login Form -->
-          <vee-form v-show="tab === 'login'" :validation-schema="loginSchema">
+          <!-- :validation-schema="loginSchema" -->
+          <vee-form v-show="tab === 'login'" @click.prevent="LoginAction" :validation-schema="loginSchema">
             <!-- Email -->
             <div class="mb-3">
               <label class="inline-block mb-2">Email</label>
-              <vee-field as="input" name="email" rules="required|email" type="email"
+              <vee-field as="input" name="email" v-model="loginForm.email" rules="required|email" type="email"
                 class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 rounded focus:outline-none focus:border-black transition duration-300"
                 placeholder="Enter Email" />
               <ErrorMessage name="email" rules="min:8" class="text-red-500 text-sm mt-1" />
@@ -51,10 +52,9 @@
             <!-- Password -->
             <div class="mb-3">
               <label class="inline-block mb-2">Password</label>
-              <vee-field :type="showPassword ? 'text' : 'password'" name="password" rules="required|min:6" as="input"
+              <vee-field :type="showPassword ? 'text' : 'password'" v-model="loginForm.password" name="password" rules="required|min:6" as="input"
                 class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition
-                duration-500 focus:outline-none focus:border-black rounded"
-                placeholder="Enter Password" />
+                duration-500 focus:outline-none focus:border-black rounded" placeholder="Enter Password" />
               <i @click="toggleShow" :class="['fas', showPassword ? 'fa-eye-slash' : 'fa-eye']"
                 class="absolute top-9 right-3 cursor-pointer text-gray-600"></i>
               <ErrorMessage name="password" class="text-red-500 text-sm mt-1" />
@@ -69,66 +69,60 @@
             <!-- Name -->
             <div class="mb-3">
               <label class="inline-block mb-2">Name</label>
-              <vee-field type="text" name="name" as="input"
-                class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition
-                duration-500 focus:outline-none focus:border-black rounded"
-                placeholder="Enter Name" />
-                 <ErrorMessage name="name" class="text-red-500 text-sm mt-1" />
+              <vee-field type="text" name="name" as="input" v-model="registerForm.name"  class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition
+                duration-500 focus:outline-none focus:border-black rounded" placeholder="Enter Name" />
+              <ErrorMessage name="name" class="text-red-500 text-sm mt-1" />
             </div>
             <!-- Email -->
             <div class="mb-3">
               <label class="inline-block mb-2">Email</label>
-              <vee-field name="email" as="input" type="email"
-                class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition
-                duration-500 focus:outline-none focus:border-black rounded"
-                placeholder="Enter Email" />
-                <ErrorMessage name="email" class="text-red-500 text-sm mt-1" />
+              <vee-field name="email" as="input" type="email" v-model="registerForm.email"  class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition
+                duration-500 focus:outline-none focus:border-black rounded" placeholder="Enter Email" />
+              <ErrorMessage name="email" class="text-red-500 text-sm mt-1" />
             </div>
             <!-- Age -->
             <div class="mb-3">
               <label class="inline-block mb-2">Age</label>
-              <vee-field type="number" as="input" name="age"
-                class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300
+              <vee-field type="number" as="input" name="age" v-model="registerForm.age" class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300
                 transition duration-500 focus:outline-none focus:border-black rounded" />
-                     <ErrorMessage name="age" class="text-red-500 text-sm mt-1" />
+              <ErrorMessage name="age" class="text-red-500 text-sm mt-1" />
             </div>
             <!-- Password -->
             <div class="mb-3 relative">
               <label class="inline-block mb-2">Password</label>
-              <vee-field :type="showPassword ? 'text' : 'password'"  name="password" rules="required|min:6" as="input"
+              <vee-field :type="showPassword ? 'text' : 'password'" v-model="registerForm.password" name="password" rules="required|min:6" as="input"
                 class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300
-                transition duration-500 focus:outline-none focus:border-black rounded"
-                placeholder="Password" />
+                transition duration-500 focus:outline-none focus:border-black rounded" placeholder="Password" />
               <i @click="toggleShow" :class="['fas', showPassword ? 'fa-eye-slash' : 'fa-eye']"
                 class="absolute top-9 right-3 cursor-pointer text-gray-600"></i>
-                      <ErrorMessage name="password" class="text-red-500 text-sm mt-1" />
+              <ErrorMessage name="password" class="text-red-500 text-sm mt-1" />
             </div>
             <!-- Confirm Password -->
             <div class="mb-3">
               <label class="inline-block mb-2">Confirm Password</label>
-              <vee-field type="password"  name="confirm_password" rules="required|min:6" as="input"
-                class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition
-                duration-500 focus:outline-none focus:border-black rounded"
-                placeholder="Confirm Password" />
-                        <ErrorMessage name="confirm_password" class="text-red-500 text-sm mt-1" />
+              <vee-field type="password" name="confirm_password" v-model="registerForm.confirm_password"  rules="required|min:6" as="input" class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition
+                duration-500 focus:outline-none focus:border-black rounded" placeholder="Confirm Password" />
+              <ErrorMessage name="confirm_password" class="text-red-500 text-sm mt-1" />
             </div>
             <!-- Country -->
             <div class="mb-3">
               <label class="inline-block mb-2">Country</label>
-              <select
-                class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition
+              <vee-field as="select" name="country" class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition
                 duration-500 focus:outline-none focus:border-black rounded">
                 <option value="USA">USA</option>
                 <option value="Mexico">Mexico</option>
                 <option value="Germany">Germany</option>
-              </select>
-
+              </vee-field>
+              <ErrorMessage name="country" class="text-red-500 text-sm mt-1" />
             </div>
             <!-- TOS -->
             <div class="mb-3 pl-6">
-              <input type="checkbox" class="w-4 h-4 float-left -ml-6 mt-1 rounded" />
+              <!-- <vee-field type="checkbox"  name="tos" value="1"
+              class="w-4 h-4 float-left -ml-6 mt-1 rounded" /> -->
+              <vee-field type="checkbox" v-model="registerForm.tos" name="tos" value="1" class="w-4 h-4 float-left -ml-6 mt-1 rounded" />
               <label class="inline-block">Accept terms of service</label>
             </div>
+            <ErrorMessage name="tos" class="text-red-500 text-sm mt-1" />
             <button type="submit"
               class="block w-full bg-purple-600 text-white py-1.5 px-3 rounded transition hover:bg-purple-700">
               Submit
@@ -148,6 +142,7 @@ import { getCurrentInstance } from 'vue';
 export default {
   name: 'Auth',
   computed: {
+    ...validation,
     ...mapState(modalStore, ['hiddenClass']),
     ...mapWritableState(modalStore, {
       modalVisibility: 'isOpen'
@@ -162,13 +157,13 @@ export default {
     },
     registerSchema() {
       return {
-            name: 'required|min:2|alpha_spaces',
-            email: 'required|email',
-            age: 'required|min_value:18|max_value:120',
-            password: 'required|password|min:8',
-            confirm_password: 'required|confirmed:@password',
-            country: 'required',
-            tos: 'required',
+        name: 'required|min:2|alpha_spaces',
+        email: 'required|email',
+        age: 'required|min_value:18|max_value:120',
+        password: 'required|password|min:8',
+        confirm_password: 'required|confirmed:@password',
+        country: 'required',
+        tos: 'tos_required',
       };
     },
   }
@@ -176,6 +171,19 @@ export default {
     return {
       tab: "login",
       showPassword: false,
+      loginForm : {
+        email: '',
+        password: ''
+      },
+      registerForm : {
+        name: '',
+        email: '',
+        age: null,
+        password: '',
+        confirm_password: '',
+        country: '',
+        tos: false
+      },
       // schema: {
       //   name: 'required',
       //   email: "email|required",
@@ -190,6 +198,25 @@ export default {
   methods: {
     toggleShow() {
       this.showPassword = !this.showPassword
+    },
+    RegisterAction($event){
+      console.log('Register method called');
+      console.log($event,'event');
+      console.log($event.target.value,'event value');
+      console.log(this.registerForm,'login form data');
+      console.log(this.registerForm.email,'login form data');
+      console.log(this.registerForm.password,'login form data');
+
+      // You can add your registration logic here
+    },
+    LoginAction($event) {
+      console.log('Login method called');
+      console.log($event,'event');
+      console.log($event.target.value,'event value');
+      console.log(this.loginForm,'login form data');
+      console.log(this.loginForm.email,'login form data');
+      console.log(this.loginForm.password,'login form data');
+
     }
   }
 }
